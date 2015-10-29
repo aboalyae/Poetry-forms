@@ -1,0 +1,51 @@
+"""
+A pronunciation dictionary: dict of {str: list of str}
+  - each key is a word (a str)
+  - each value is a list of phonemes for that word (a list of str)
+"""
+
+
+def read_pronunciation(pronunciation_file):
+    """ (file open for reading) -> pronunciation dictionary
+
+    Read pronunciation_file, which is in the format of the CMU Pronouncing
+    Dictionary, and return the pronunciation dictionary.
+    """
+    pronunciation_dictionary = {}
+    for line in pronunciation_file:
+        if not line.startswith(';;;'):
+            split_line = line.split()
+            pronunciation_dictionary[split_line[0]] = split_line[1:]
+    return pronunciation_dictionary
+
+def read_poetry_form_description(poetry_forms_file):
+    """ (file open for reading) -> poetry pattern
+
+    Precondition: we have just read a poetry form name from poetry_forms_file.
+
+    Return the next poetry pattern from poetry_forms_file.
+    """
+    syllables = []
+    rhyme = []
+    for line in poetry_forms_file:
+        # once it gets to an empty line, returns poetry pattern
+        if line.strip() == "":
+            return (syllables,rhyme)
+        splitted_line=line.strip().split()
+        if splitted_line[0].isdigit():
+            syllables.append(splitted_line[0])
+            rhyme.append(splitted_line[1]) 
+    return (syllables,rhyme)
+
+def read_poetry_form_descriptions(poetry_forms_file):
+    """ (file open for reading) -> dict of {str: poetry pattern}
+
+    Return a dictionary of poetry form name to poetry pattern for the
+    poetry forms in poetry_forms_file.
+    """
+    answer = {}
+    for line in poetry_forms_file:
+        splitted_line = line.strip()
+        if splitted_line[0].isalpha():
+                answer[splitted_line] = read_poetry_form_description(poetry_forms_file)
+    return answer
