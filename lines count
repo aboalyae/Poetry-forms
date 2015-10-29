@@ -1,0 +1,22 @@
+import unittest
+from funct import count_lines
+class test_count_lines(unittest.TestCase):
+    def test_01_empty_blank_lines(self):
+        L=['   \n','  \n  ']
+        self.assertEqual(count_lines(L),0)
+    def test_02_mixed_blank_nonblank(self):
+        L=['The first line leads off,\n', '\n', '  \n',
+        'With a gap before the next.\n', 'Then the poem ends.\n']
+        self.assertEqual(count_lines(L),3)
+    def test_03_one_line(self):
+        L=[' This assignment took a lot of time.']
+        self.assertEqual(count_lines(L),1)
+    def test_04_only_punctuation(self):
+        L=['...','!!!!','!#!@#?+_)($']
+        self.assertEqual(count_lines(L),3)
+    def test_05_internal_new_character(self):
+        L=['This is a test case.\n We worked hard on it\n']
+        self.assertEqual(count_lines(L),1)
+    
+unittest.main(exit=False)
+
